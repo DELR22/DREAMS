@@ -120,15 +120,47 @@
     .legend-row { display:flex; align-items:center; gap:7px; font-size:9px; color:var(--text-muted); letter-spacing:0.05em; margin-bottom:4px; }
 
     /* ── Dreams Main ── */
-    #dreams-main { flex:1; display:flex; align-items:center; justify-content:center; background:var(--bg-app); overflow:hidden; }
-    #canvas-wrapper { display:flex; flex-direction:column; align-items:flex-start; }
+    #dreams-main { flex:1; display:flex; align-items:center; justify-content:center; background:var(--bg-app); overflow:auto; }
+    #canvas-row { display:flex; align-items:flex-start; gap:28px; }
+    #canvas-wrapper { display:flex; flex-direction:column; align-items:flex-start; padding:24px 0 24px 24px; }
     #canvas-label { font-size:9px; color:var(--text-muted); letter-spacing:0.14em; text-transform:uppercase; margin-bottom:6px; }
-    #dreams-canvas { width:820px; height:560px; position:relative; background:var(--bg-canvas); border:1px solid var(--border); overflow:visible; flex-shrink:0; }
+    #dreams-canvas {
+      width:840px; height:580px; position:relative; background:var(--bg-canvas);
+      border:1px solid var(--border);
+      overflow:visible; flex-shrink:0;
+    }
+    #side-panel {
+      width:250px; flex-shrink:0; margin-top:24px;
+      display:flex; flex-direction:column; gap:16px;
+      max-height:580px; overflow-y:auto;
+    }
+    .side-card {
+      background:#fff; border:1px solid var(--border); padding:16px 18px;
+      font-size:10px; color:var(--text-body); line-height:1.65; flex-shrink:0;
+    }
+    .side-card h3 { font-family:var(--font-serif); font-weight:400; font-size:14px; color:#111; margin-bottom:10px; }
+    .side-card p { margin-bottom:10px; }
+    .side-card p:last-child { margin-bottom:0; }
+    .side-card strong { color:#111; font-weight:500; }
+    #plane-boundary {
+      position:absolute; left:0; top:0; pointer-events:none; z-index:1;
+      border:1px dashed #9ca3af;
+    }
     #canvas-hint { font-size:9px; color:var(--text-ghost); letter-spacing:0.1em; margin-top:6px; align-self:flex-end; }
+
+    /* ── Cartesian Axis Labels ── */
+    .axis-corner-label {
+      position:absolute; font-family:var(--font-mono); font-size:8px;
+      color:var(--text-ghost); letter-spacing:0.06em; pointer-events:none; z-index:2; white-space:nowrap;
+    }
+    .axis-direction-label {
+      position:absolute; font-family:var(--font-mono); font-size:8px; letter-spacing:0.1em;
+      color:var(--text-muted); pointer-events:none; z-index:2; text-transform:uppercase;
+    }
 
     /* ── Initials Badge ── */
     #initials-badge {
-      position:absolute; bottom:16px; right:16px; width:54px; height:54px;
+      position:absolute; bottom:20px; right:20px; width:54px; height:54px;
       border:1px solid var(--border); background:#f9fafb; border-radius:50%;
       display:none; align-items:center; justify-content:center;
       font-family:var(--font-serif); font-size:14px; color:#374151;
@@ -176,6 +208,26 @@
     .circle:hover .delete-btn, .circle.selected .delete-btn { display:flex; }
     .delete-btn:hover { color:#ef4444; border-color:#fca5a5; }
 
+    /* ── Magnitude Panel ── */
+    #magnitude-panel { display:flex; flex-direction:column; gap:6px; }
+    .magnitude-chip {
+      display:flex; align-items:center; justify-content:space-between; gap:8px;
+      border:1px solid var(--border); background:#fff; padding:6px 9px;
+      font-family:var(--font-mono); font-size:9px; color:var(--text-body); letter-spacing:0.03em;
+    }
+    .magnitude-chip .chip-left { display:flex; align-items:center; gap:6px; min-width:0; }
+    .magnitude-chip .chip-left span:last-child { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .magnitude-chip .chip-right { display:flex; align-items:center; gap:6px; flex-shrink:0; }
+    .magnitude-chip .im-value { font-weight:500; }
+    .magnitude-chip .pct-value { font-weight:500; color:var(--text-muted); }
+    .magnitude-empty { font-size:9px; color:var(--text-ghost); font-style:italic; }
+    .im-total-row {
+      margin-top:2px; padding-top:8px;
+      border-top:1px solid var(--border-light); font-size:9px;
+      color:var(--text-body); letter-spacing:0.05em;
+    }
+    .im-total-row strong { color:#111; font-size:10.5px; }
+
     /* ── EP Main ── */
     #ep-main { flex:1; overflow-y:auto; background:var(--bg-app); padding:28px 36px; }
     .ep-heading { font-family:var(--font-serif); font-size:22px; color:#111; margin-bottom:4px; }
@@ -211,7 +263,7 @@
     #summary-btn:hover { transform:translateY(-1px); box-shadow:0 3px 10px rgba(0,0,0,0.08); }
     #generate-ep-btn { background:#111; color:#fff; border:none; padding:10px 22px; font-family:var(--font-mono); font-size:11px; cursor:pointer; letter-spacing:0.05em; transition:all 0.15s; }
     #generate-ep-btn:hover { transform:translateY(-1px); box-shadow:0 3px 10px rgba(0,0,0,0.08); }
-    #ep-prompt-colored { font-family:var(--font-mono); font-size:12px; line-height:2; padding:14px 16px; background:var(--bg-app); border:1px solid var(--border-light); margin-bottom:12px; }
+    #ep-prompt-colored { font-family:var(--font-mono); font-size:12px; line-height:2; padding:14px 16px; background:var(--bg-app); border:1px solid var(--border-light); margin-bottom:12px; white-space:pre-wrap; }
     #ep-prompt-editable { width:100%; border:1px solid var(--border); padding:10px 12px; font-family:var(--font-mono); font-size:11px; color:var(--text-body); resize:vertical; line-height:1.7; min-height:72px; background:#fff; transition:border-color 0.15s; }
     #ep-prompt-editable:focus { border-color:#111; }
 
@@ -247,12 +299,12 @@
   </div>
 
   <!-- EP WARNING BANNER -->
-  <div id="ep-warning">← Complete your DREAMS canvas first to pre-fill this form.</div>
+  <div id="ep-warning">⚠ Complete your DREAMS canvas first to pre-fill this form.</div>
 
   <!-- STAGE CONTAINER -->
   <div id="stage-container">
 
-    <!-- ══ STAGE 1: DREAMS ══ -->
+    <!-- ── STAGE 1: DREAMS ── -->
     <div id="stage-dreams">
 
       <!-- Sidebar -->
@@ -293,32 +345,32 @@
         <button class="sidebar-btn add-circle-btn" data-type="place"
           data-hint="What space does this feeling call for?"
           data-ex="Interior, exterior, urban, ruin, cave, forest, cosmos…">
-          <span class="type-dot" style="background:var(--color-place)"></span>＋ Place Circle
+          <span class="type-dot" style="background:var(--color-place)"></span>+ Place Circle
         </button>
         <button class="sidebar-btn add-circle-btn" data-type="sensory"
           data-hint="How would a body feel inside this space?"
           data-ex="Weightless, enclosed, vibrating, still, echoing…">
-          <span class="type-dot" style="background:var(--color-sensory)"></span>＋ Sensory Circle
+          <span class="type-dot" style="background:var(--color-sensory)"></span>+ Sensory Circle
         </button>
         <button class="sidebar-btn add-circle-btn" data-type="material"
           data-hint="What are the surfaces made of?"
           data-ex="Raw concrete, reclaimed timber, moss, glass, sand…">
-          <span class="type-dot" style="background:var(--color-material)"></span>＋ Material Circle
+          <span class="type-dot" style="background:var(--color-material)"></span>+ Material Circle
         </button>
         <button class="sidebar-btn add-circle-btn" data-type="object"
           data-hint="What inhabits the space?"
           data-ex="Hanging textiles, a single table, machinery, plants…">
-          <span class="type-dot" style="background:var(--color-object)"></span>＋ Object / Being Circle
+          <span class="type-dot" style="background:var(--color-object)"></span>+ Object / Being Circle
         </button>
         <button class="sidebar-btn add-circle-btn" data-type="location"
           data-hint="What surrounds the space?"
           data-ex="A river in winter, a volcanic plain, deep ocean…">
-          <span class="type-dot" style="background:var(--color-location)"></span>＋ Location Circle
+          <span class="type-dot" style="background:var(--color-location)"></span>+ Location Circle
         </button>
         <button class="sidebar-btn add-circle-btn" data-type="lighting"
           data-hint="How and from where is the space lit?"
           data-ex="Diffuse north skylight, firelight, bioluminescence…">
-          <span class="type-dot" style="background:var(--color-lighting)"></span>＋ Lighting Circle
+          <span class="type-dot" style="background:var(--color-lighting)"></span>+ Lighting Circle
         </button>
 
         <div class="sep"></div>
@@ -338,11 +390,12 @@
         <div class="legend-row"><span class="type-dot" style="background:var(--color-location)"></span><span>Location</span></div>
         <div class="legend-row"><span class="type-dot" style="background:var(--color-lighting)"></span><span>Lighting</span></div>
 
-        <p class="sidebar-footer">DREAMS translates felt experience into spatial form — a diagram of what an emotion might become as a place.</p>
+        <p class="sidebar-footer">DREAMS translates felt experience into spatial form — a diagram of what an emotion might become as a place. The canvas is a 0–100 Cartesian plane: the Initials circle sits just outside it at (100,100) as a fixed reference, and a bubble's pull toward that corner (its vector magnitude) grows the closer it sits to it. Each bubble's Importance Measurement (IM) — magnitude × radius — is shown as a share of the session's total IM.</p>
       </div>
 
       <!-- Canvas Area -->
       <div id="dreams-main">
+        <div id="canvas-row">
         <div id="canvas-wrapper">
           <div id="canvas-label">CANVAS</div>
           <div id="dreams-canvas">
@@ -355,6 +408,18 @@
               </defs>
               <rect width="100%" height="100%" fill="url(#grid)"/>
             </svg>
+
+            <!-- Cartesian plane boundary: inset from the canvas's bottom/right edges by the
+                 Initials circle's diameter, so the Initials circle can sit outside it as a
+                 fixed reference at (100,100), the point where the axes meet. -->
+            <div id="plane-boundary"></div>
+
+            <!-- Cartesian axis reference labels: 0 at the far boundary corner, 100 at the near boundary corner (the Initials circle) -->
+            <div class="axis-corner-label" style="top:6px;left:6px;">(0, 0)</div>
+            <div class="axis-corner-label" id="origin-coord-label" style="bottom:78px;right:78px;text-align:right;">(100, 100)</div>
+            <div class="axis-direction-label" style="bottom:80px;left:8px;">X-axis →</div>
+            <div class="axis-direction-label" style="top:8px;right:80px;">↓ Y-axis</div>
+
             <!-- Circle text editor overlay -->
             <textarea id="circle-editor"></textarea>
             <!-- Initials badge -->
@@ -367,10 +432,27 @@
           </div>
           <div id="canvas-hint">click to select &nbsp;·&nbsp; double-click to edit label &nbsp;·&nbsp; drag to move &nbsp;·&nbsp; drag handle to resize</div>
         </div>
+
+        <!-- Right column: IM scores + explanation, stacked at a fixed width so the canvas never has to grow or crowd as bubbles are added -->
+        <div id="side-panel">
+          <div id="magnitude-card" class="side-card">
+            <h3>Importance Measurement</h3>
+            <div id="magnitude-panel"></div>
+          </div>
+
+          <div id="im-explainer" class="side-card">
+            <h3>How Importance Is Measured</h3>
+            <p>The Initials circle is a reflection of <strong>Self</strong>. Every other bubble is placed somewhere relative to it, and that placement carries meaning.</p>
+            <p><strong>Distance from Self.</strong> The closer a bubble sits to the Initials circle, the more central and important that element is to the feeling being mapped. A bubble placed far from the Initials circle represents something more peripheral or distant to that sense of self.</p>
+            <p><strong>Size of the bubble.</strong> The bigger a bubble is drawn, the heavier or more dominant that element is meant to feel — a large circle carries more weight in the representation of the feeling than a small one.</p>
+            <p>Importance Measurement (IM) brings these two qualities together into a single score for each element: how close it sits to Self, and how large it is. The percentage shown for each type is that element's share of everything mapped on the canvas — the higher the share, the more it defines the feeling.</p>
+          </div>
+        </div>
+        </div>
       </div>
     </div><!-- /stage-dreams -->
 
-    <!-- ══ STAGE 2: EMPATHIC PROMPTING ══ -->
+    <!-- ── STAGE 2: EMPATHIC PROMPTING ── -->
     <div id="stage-ep">
 
       <!-- Sidebar -->
@@ -441,29 +523,31 @@
           <div>
             <div style="font-size:8px;color:var(--text-muted);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:5px">Image Style</div>
             <select class="ep-select" id="main-image-style-select" style="margin-bottom:0">
+              <option>Randomly structured, overlapped flat collage</option>
+              <option>Organized grid flat collage</option>
               <option>Photorealistic render</option>
-              <option>Architectural sketch</option>
-              <option>Watercolor</option>
-              <option>Charcoal drawing</option>
-              <option>Cinematic still</option>
-              <option>Abstract composition</option>
-              <option>Randomly structured overlapped collage</option>
-              <option>Organized grid collage</option>
+              <option>Physical scale model photograph</option>
+              <option>White / clay model render</option>
+              <option>Watercolor architectural illustration</option>
+              <option>Ink line sketch</option>
+              <option>Technical CAD linework</option>
+              <option>Risograph / screen-print</option>
+              <option>Cinematic photographic</option>
             </select>
           </div>
           <div>
-            <div style="font-size:8px;color:var(--text-muted);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:5px">Perspective</div>
+            <div style="font-size:8px;color:var(--text-muted);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:5px">Perspective/Format</div>
             <select class="ep-select" id="main-perspective-select" style="margin-bottom:0">
-              <option>Eye-level perspective</option>
-              <option>Bird's-eye view</option>
               <option>Axonometric diagram</option>
-              <option>Isometric diagram</option>
-              <option>Top orthographic view</option>
+              <option>Reference board</option>
+              <option>Eye-level interior perspective</option>
+              <option>Wide-angle exterior hero</option>
+              <option>Aerial / bird's-eye view</option>
+              <option>Worm's-eye / upward view</option>
+              <option>Section perspective</option>
               <option>Orthographic elevation</option>
-              <option>Floor plan</option>
-              <option>Section plan</option>
-              <option>Material reference board</option>
-              <option>Object reference board</option>
+              <option>Exploded axonometric</option>
+              <option>Presentation sheet</option>
             </select>
           </div>
           <div>
@@ -570,7 +654,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ══ STATE ══ */
+  /* ── STATE ── */
   const session = { initials: '', feelings: [], circles: [] };
   const epFields = { place:'', sensory:'', material:'', object:'', location:'', lighting:'', imageStyle:'Photorealistic render', perspective:'Eye-level perspective', aspectRatio:'16:9' };
   const dirtyFields = new Set();
@@ -594,11 +678,37 @@ document.addEventListener('DOMContentLoaded', () => {
     object:'Object / Being', location:'Location', lighting:'Lighting'
   };
 
-  const CANVAS_W = 820, CANVAS_H = 560;
+  const EDGE_GAP = 20; // breathing room between the Initials circle and the canvas's outer edge
+  const INITIALS_DIAMETER = 54;
+  const BOUNDARY_MARGIN = INITIALS_DIAMETER; // the plane is inset from the Initials circle by its own diameter
+  const CANVAS_W = 840, CANVAS_H = 580;
+  const PLANE_W = CANVAS_W - BOUNDARY_MARGIN - EDGE_GAP;
+  const PLANE_H = CANVAS_H - BOUNDARY_MARGIN - EDGE_GAP;
   const uid = () => Math.random().toString(36).slice(2, 9);
   const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 
-  /* ══ DOM REFS ══ */
+  /* ── Cartesian plane helpers ──
+     The interactive plane is bounded to a rectangle inset from the canvas's
+     bottom and right edges by the Initials circle's diameter, so that circle
+     sits just outside the plane as a fixed reference at (100, 100) — the
+     point where the axes meet — while 0 sits at the plane's far corner
+     (the canvas's top-left). Bubble centers can reach either extreme, so a
+     vector magnitude of exactly 0 or 100 is always achievable. */
+  function toPlaneCoords(px, py) {
+    return { x: (px / PLANE_W) * 100, y: (py / PLANE_H) * 100 };
+  }
+  function computeMagnitude(px, py) {
+    const { x, y } = toPlaneCoords(px, py);
+    const dist = Math.sqrt((100 - x) ** 2 + (100 - y) ** 2);
+    const maxDist = Math.sqrt(100 ** 2 + 100 ** 2);
+    return Math.round(clamp(100 - (dist / maxDist) * 100, 0, 100));
+  }
+  /* Importance Measurement: vector magnitude × bubble radius */
+  function computeIM(magnitude, diameter) {
+    return Math.round(magnitude * (diameter / 2));
+  }
+
+  /* ── DOM REFS ── */
   const dreamsStagEl  = document.getElementById('stage-dreams');
   const epStageEl     = document.getElementById('stage-ep');
   const dreamsCanvas  = document.getElementById('dreams-canvas');
@@ -608,8 +718,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const initialsBadge = document.getElementById('initials-badge');
   const sessionInd    = document.getElementById('session-indicator');
   const epWarning     = document.getElementById('ep-warning');
+  const magnitudePanel = document.getElementById('magnitude-panel');
 
-  /* ══ HELPERS ══ */
+  /* ── HELPERS ── */
   function updateCanvasLabel() {
     canvasLabel.textContent = session.feelings.length
       ? session.feelings.join('  ·  ').toUpperCase()
@@ -642,7 +753,68 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ══ TOOLTIP ══ */
+  /* ── Magnitude panel: shows each bubble's color, label, and vector magnitude ── */
+  function renderMagnitudePanel() {
+    magnitudePanel.innerHTML = '';
+    if (!session.circles.length) {
+      const empty = document.createElement('span');
+      empty.className = 'magnitude-empty';
+      empty.textContent = 'No circles placed yet — Importance Measurement will appear here.';
+      magnitudePanel.appendChild(empty);
+      return;
+    }
+    const totalIM = session.circles.reduce((sum, c) => sum + c.im, 0);
+
+    // Group bubbles by type so two or more of the same type combine into one IM + percentage
+    const groups = {};
+    session.circles.forEach(c => {
+      if (!groups[c.type]) groups[c.type] = { im: 0, count: 0 };
+      groups[c.type].im += c.im;
+      groups[c.type].count += 1;
+    });
+
+    Object.keys(TYPE_LABELS).forEach(type => {
+      const g = groups[type];
+      if (!g) return;
+
+      const chip = document.createElement('div');
+      chip.className = 'magnitude-chip';
+
+      const left = document.createElement('div');
+      left.className = 'chip-left';
+      const dot = document.createElement('span');
+      dot.className = 'type-dot';
+      dot.style.background = TYPE_COLORS[type];
+      const label = document.createElement('span');
+      label.textContent = TYPE_LABELS[type] + (g.count > 1 ? ` (×${g.count})` : '');
+      left.appendChild(dot);
+      left.appendChild(label);
+
+      const right = document.createElement('div');
+      right.className = 'chip-right';
+      const im = document.createElement('span');
+      im.className = 'im-value';
+      im.style.color = TYPE_COLORS[type];
+      im.textContent = 'IM ' + g.im;
+      const pct = document.createElement('span');
+      pct.className = 'pct-value';
+      const pctValue = totalIM > 0 ? (g.im / totalIM) * 100 : 0;
+      pct.textContent = pctValue.toFixed(1) + '%';
+      right.appendChild(im);
+      right.appendChild(pct);
+
+      chip.appendChild(left);
+      chip.appendChild(right);
+      magnitudePanel.appendChild(chip);
+    });
+
+    const totalRow = document.createElement('div');
+    totalRow.className = 'im-total-row';
+    totalRow.innerHTML = 'Total Importance Measurement (IM): <strong>' + totalIM + '</strong>';
+    magnitudePanel.appendChild(totalRow);
+  }
+
+  /* ── TOOLTIP ── */
   let activeTooltip = null;
   function showTooltip(btn) {
     removeTooltip();
@@ -660,7 +832,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (activeTooltip) { activeTooltip.remove(); activeTooltip = null; }
   }
 
-  /* ══ CIRCLES ══ */
+  /* ── CIRCLES ── */
   let selectedId = null;
   let isTyping   = false;
   let dragging   = null; // { el, circleObj, startMX, startMY, startX, startY }
@@ -693,7 +865,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const delBtn = document.createElement('button');
     delBtn.className = 'delete-btn';
-    delBtn.textContent = '✕';
+    delBtn.textContent = '×';
     delBtn.addEventListener('mousedown', e => { e.stopPropagation(); deleteCircle(c.id); });
     el.appendChild(delBtn);
 
@@ -726,14 +898,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function addCircle(type) {
     const d = 120;
-    const x = clamp(40 + Math.random() * (CANVAS_W - d - 80), d/2, CANVAS_W - d/2);
-    const y = clamp(40 + Math.random() * (CANVAS_H - d - 80), d/2, CANVAS_H - d/2);
-    const c = { id: uid(), type, label: TYPE_LABELS[type].toLowerCase(), diameter: d, x, y };
+    const x = clamp(40 + Math.random() * (PLANE_W - 80), 0, PLANE_W);
+    const y = clamp(40 + Math.random() * (PLANE_H - 80), 0, PLANE_H);
+    const magnitude = computeMagnitude(x, y);
+    const c = { id: uid(), type, label: TYPE_LABELS[type].toLowerCase(), diameter: d, x, y, magnitude, im: computeIM(magnitude, d) };
     session.circles.push(c);
     createCircleEl(c);
     selectCircle(c.id);
     updateEmptyState();
     updateSessionIndicator();
+    renderMagnitudePanel();
   }
 
   function deleteCircle(id) {
@@ -743,6 +917,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (selectedId === id) { selectedId = null; isTyping = false; }
     updateEmptyState();
     updateSessionIndicator();
+    renderMagnitudePanel();
   }
 
   /* ── Circle editor overlay ── */
@@ -815,6 +990,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const el = getCircleEl(id);
     if (!el) return;
     el.querySelector('.circle-label').textContent = label;
+    renderMagnitudePanel();
   }
 
   /* ── Mouse events for drag / resize ── */
@@ -822,11 +998,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (dragging) {
       const { el, circleObj, startMX, startMY, startX, startY } = dragging;
       const dx = e.clientX - startMX, dy = e.clientY - startMY;
-      const r  = circleObj.diameter / 2;
-      const nx = clamp(startX + dx, r, CANVAS_W - r);
-      const ny = clamp(startY + dy, r, CANVAS_H - r);
+      const nx = clamp(startX + dx, 0, PLANE_W);
+      const ny = clamp(startY + dy, 0, PLANE_H);
       circleObj.x = nx; circleObj.y = ny;
+      circleObj.magnitude = computeMagnitude(nx, ny);
+      circleObj.im = computeIM(circleObj.magnitude, circleObj.diameter);
       el.style.left = nx + 'px'; el.style.top = ny + 'px';
+      renderMagnitudePanel();
       if (circleEditor.dataset.id === circleObj.id) {
         const r = circleObj.diameter / 2;
         circleEditor.style.left = (nx - r) + 'px';
@@ -839,6 +1017,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const delta = (Math.abs(dx) > Math.abs(dy) ? dx : dy);
       const newD = clamp(startD + delta, 60, 400);
       circleObj.diameter = newD;
+      circleObj.im = computeIM(circleObj.magnitude, newD);
       el.style.width  = newD + 'px';
       el.style.height = newD + 'px';
       el.querySelector('.circle-label').style.fontSize = clamp(newD * 0.1, 9, 13) + 'px';
@@ -850,6 +1029,7 @@ document.addEventListener('DOMContentLoaded', () => {
         circleEditor.style.height   = newD + 'px';
         circleEditor.style.fontSize = clamp(newD * 0.1, 9, 13) + 'px';
       }
+      renderMagnitudePanel();
     }
   });
 
@@ -867,7 +1047,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape' && selectedId) deselectAll();
   });
 
-  /* ══ FEELINGS ══ */
+  /* ── FEELINGS ── */
   const btnFeelings      = document.getElementById('btn-feelings');
   const feelingsGroup    = document.getElementById('feelings-input-group');
   const feelingsInput    = document.getElementById('feelings-input');
@@ -900,7 +1080,7 @@ document.addEventListener('DOMContentLoaded', () => {
   feelingsCancel.addEventListener('click', () => showFeelingsInput(false));
   feelingsInput.addEventListener('keydown', e => { if(e.key==='Enter') confirmFeelings(); if(e.key==='Escape') showFeelingsInput(false); });
 
-  /* ══ INITIALS ══ */
+  /* ── INITIALS ── */
   const btnInitials      = document.getElementById('btn-initials');
   const initialsGroup    = document.getElementById('initials-input-group');
   const initialsInputEl  = document.getElementById('initials-input');
@@ -935,23 +1115,24 @@ document.addEventListener('DOMContentLoaded', () => {
   initialsCancel.addEventListener('click', () => showInitialsInput(false));
   initialsInputEl.addEventListener('keydown', e => { if(e.key==='Enter') confirmInitials(); if(e.key==='Escape') showInitialsInput(false); });
 
-  /* ══ ADD CIRCLE BUTTONS ══ */
+  /* ── ADD CIRCLE BUTTONS ── */
   document.querySelectorAll('.add-circle-btn').forEach(btn => {
     btn.addEventListener('mouseenter', () => showTooltip(btn));
     btn.addEventListener('mouseleave', removeTooltip);
     btn.addEventListener('click', () => addCircle(btn.dataset.type));
   });
 
-  /* ══ CLEAR CANVAS ══ */
+  /* ── CLEAR CANVAS ── */
   document.getElementById('btn-clear').addEventListener('click', () => {
     session.circles = [];
     dreamsCanvas.querySelectorAll('.circle').forEach(el => el.remove());
     selectedId = null; isTyping = false;
     updateEmptyState();
     updateSessionIndicator();
+    renderMagnitudePanel();
   });
 
-  /* ══ NAV / STAGE SWITCHING ══ */
+  /* ── NAV / STAGE SWITCHING ── */
   function showEPWarning() {
     epWarning.style.display = 'flex';
     setTimeout(() => { epWarning.style.display = 'none'; }, 4000);
@@ -973,7 +1154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => switchStage(btn.dataset.stage));
   });
 
-  /* ══ EP: PREFILL ══ */
+  /* ── EP: PREFILL ── */
   function prefillEPFields() {
     const types = ['place','sensory','material','object','location','lighting'];
     const defaults = new Set(Object.values(TYPE_LABELS).map(l => l.toLowerCase()));
@@ -1021,7 +1202,7 @@ document.addEventListener('DOMContentLoaded', () => {
       : '';
   }
 
-  /* ══ EP: TEXTAREA DIRTY TRACKING ══ */
+  /* ── EP: TEXTAREA DIRTY TRACKING ── */
   document.querySelectorAll('.ep-textarea').forEach(ta => {
     ta.addEventListener('input', () => {
       dirtyFields.add(ta.dataset.field);
@@ -1037,7 +1218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ══ EP: SUMMARY ══ */
+  /* ── EP: SUMMARY ── */
   function getSummaryValues() {
     const imageStyle  = document.getElementById('main-image-style-select').value;
     const perspective = document.getElementById('main-perspective-select').value;
@@ -1115,9 +1296,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ══ EP: GENERATE EMPATHIC PROMPT ══ */
+  /* ── EP: GENERATE EMPATHIC PROMPT ── */
+  /* Prompt template:
+     [IMAGE STYLE], [PERSPECTIVE/FORMAT] of [PLACE],
+     [MATERIAL], [OBJECT/BEING], [LOCATION],
+     [LIGHTING], [SENSORY] --ar [ASPECT RATIO]
+     Each bracket is dropped from the line if its field is empty; the
+     aspect ratio always lands on whatever line ends up last. */
+  function getAspectRatioCode(aspectRatio) {
+    const match = aspectRatio.match(/^\d+:\d+/);
+    return match ? match[0] : aspectRatio;
+  }
+
   document.getElementById('generate-ep-btn').addEventListener('click', () => {
     const { imageStyle, perspective, aspectRatio, vals } = getSummaryValues();
+    const arCode = getAspectRatioCode(aspectRatio);
+
+    const group2 = [];
+    if (vals.material) group2.push({ text: vals.material, color: TYPE_COLORS.material });
+    if (vals.object)   group2.push({ text: vals.object,   color: TYPE_COLORS.object });
+    if (vals.location) group2.push({ text: vals.location, color: TYPE_COLORS.location });
+
+    const group3 = [];
+    if (vals.lighting) group3.push({ text: vals.lighting, color: TYPE_COLORS.lighting });
+    if (vals.sensory)  group3.push({ text: vals.sensory,  color: TYPE_COLORS.sensory });
+
+    const trailingGroups = [group2, group3].filter(g => g.length);
 
     // Build color-coded display
     const colored = document.getElementById('ep-prompt-colored');
@@ -1133,25 +1337,22 @@ document.addEventListener('DOMContentLoaded', () => {
     seg(imageStyle);
     seg(', ');
     seg(perspective);
-    seg(' in a ');
-    seg(aspectRatio);
     if (vals.place) { seg(' of '); seg(vals.place, TYPE_COLORS.place); }
-    seg('.');
-    if (vals.sensory)  { seg(' The space evokes ');         seg(vals.sensory,   TYPE_COLORS.sensory);   seg('.'); }
-    if (vals.material) { seg(' Surfaces are composed of '); seg(vals.material,  TYPE_COLORS.material);  seg('.'); }
-    if (vals.object)   { seg(' The space contains ');       seg(vals.object,    TYPE_COLORS.object);    seg('.'); }
-    if (vals.location) { seg(' Set in a ');                 seg(vals.location,  TYPE_COLORS.location);  seg('.'); }
-    if (vals.lighting) { seg(' Illuminated by ');           seg(vals.lighting,  TYPE_COLORS.lighting);  seg('.'); }
+    trailingGroups.forEach(group => {
+      seg(',\n');
+      group.forEach((item, i) => {
+        if (i > 0) seg(', ');
+        seg(item.text, item.color);
+      });
+    });
+    seg(' --ar ' + arCode);
 
     // Build plain text for editable textarea
-    let plain = `${imageStyle}, ${perspective} in a ${aspectRatio}`;
-    if (vals.place)    plain += ` of ${vals.place}`;
-    plain += '.';
-    if (vals.sensory)  plain += ` The space evokes ${vals.sensory}.`;
-    if (vals.material) plain += ` Surfaces are composed of ${vals.material}.`;
-    if (vals.object)   plain += ` The space contains ${vals.object}.`;
-    if (vals.location) plain += ` Set in a ${vals.location}.`;
-    if (vals.lighting) plain += ` Illuminated by ${vals.lighting}.`;
+    let plain = `${imageStyle}, ${perspective}` + (vals.place ? ` of ${vals.place}` : '');
+    trailingGroups.forEach(group => {
+      plain += ',\n' + group.map(item => item.text).join(', ');
+    });
+    plain += ' --ar ' + arCode;
 
     document.getElementById('ep-prompt-editable').value = plain;
 
@@ -1175,9 +1376,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ══ INIT ══ */
+  /* ── INIT ── */
+  const planeBoundaryEl = document.getElementById('plane-boundary');
+  planeBoundaryEl.style.width  = PLANE_W + 'px';
+  planeBoundaryEl.style.height = PLANE_H + 'px';
   updateEmptyState();
   updateSessionIndicator();
+  renderMagnitudePanel();
 });
 </script>
 </body>
